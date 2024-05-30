@@ -1,14 +1,14 @@
 package giovanni;
 
-
+import com.github.javafaker.Faker;
 import giovanni.entitites.Customer;
 import giovanni.entitites.Order;
 import giovanni.entitites.Product;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class Application {
 
@@ -147,5 +147,46 @@ public class Application {
         orders.add(marinaOrder);
         orders.add(giacomoOrder2);
 
+        System.out.println("---------------------ESERCIZI MAVEN 1-------------------");
+
+        Supplier<Customer> customerSupplier = () -> {
+        Faker faker = new Faker(Locale.ITALY);
+         return new Customer(faker.harryPotter().character(), 2 );
+        };
+        List<Customer> customerList = new ArrayList<>();
+        for (int i = 0; i < 20; i++) {
+            customerList.add(customerSupplier.get());
+        }
+      //  customerList.forEach(System.out::println);
+Map<String, List<Customer>> ordersForClient= customers.stream().collect(Collectors.groupingBy(Customer::getName));
+ordersForClient.forEach((Customer, orders) -> System.out.println("Cliente: " + Customer + " Ordine: " + orders));
+       /* System.out.println("ordersForClient");
+        System.out.println(ordersForClient);
+        System.out.println("ORDINI");
+        System.out.println(orders);
+
+        */
+        System.out.println("---------------------ESERCIZI MAVEN 2-------------------");
+        System.out.println(aldoOrder);
+        double totalAldo = aldoOrder.getTotal();
+        System.out.println("--------------------------------totalAldo-------------------------");
+        System.out.println(totalAldo);
+     //   int totalCustomerList = customerList.stream().mapToInt(Product::getPrice).sum();
+        System.out.println("---------------------ESERCIZI MAVEN 3-------------------");
+
+        List<Product> productSortedByPrice = warehouse.stream().sorted(Comparator.comparingInt(Product -> (int) Product.getPrice())).toList();
+        productSortedByPrice.forEach(Product -> System.out.println(Product));
+        System.out.println();
+
+        System.out.println("---------------------ESERCIZI MAVEN 4-------------------");
+
+
     }
 }
+/*
+* raggruppare gli ordini
+* per ogni customer stampa lista acquisti
+*
+*dato un elenco di ordini calcola il totale che ogni cliente ha speso
+* chiave customer valore totale che ha speso
+* */
